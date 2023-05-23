@@ -13,19 +13,17 @@ func main() {
 	var result ValCurs
 	var urls []string
 	urls = getDates()
+	if result, err = get(urls[0]); err != nil {
+		log.Printf("Failed to get XML: %v", err)
+	}
+	min, err = parseFloat(result.Valute[0].Value)
+	if err != nil {
+		panic(err)
+		return
+	}
 	for i := 0; i < len(urls); i++ {
 		if result, err = get(urls[i]); err != nil {
 			log.Printf("Failed to get XML: %v", err)
-		}
-		min, err = parseFloat(result.Valute[0].Value)
-		if err != nil {
-			panic(err)
-			return
-		}
-		max, err = parseFloat(result.Valute[0].Value)
-		if err != nil {
-			panic(err)
-			return
 		}
 		for j := 0; j < len(result.Valute); j++ {
 			currentElement, err := parseFloat(result.Valute[j].Value)
