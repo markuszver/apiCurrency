@@ -20,7 +20,6 @@ func parseFloat(ctringa string) (float64, error) {
 	f, err := strconv.ParseFloat(ctringa, 64)
 	if err != nil {
 		panic(err)
-		return f, err
 	}
 	return f, nil
 }

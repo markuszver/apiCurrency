@@ -19,7 +19,6 @@ func main() {
 	min, err = parseFloat(result.Valute[0].Value)
 	if err != nil {
 		panic(err)
-		return
 	}
 	for i := 0; i < len(urls); i++ {
 		if result, err = get(urls[i]); err != nil {
@@ -29,7 +28,6 @@ func main() {
 			currentElement, err := parseFloat(result.Valute[j].Value)
 			if err != nil {
 				panic(err)
-				return
 			}
 			if min > currentElement {
 				min = currentElement
