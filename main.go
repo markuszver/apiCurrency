@@ -12,8 +12,7 @@ func main() {
 	var minDate, maxDate, valuteNameMin, valuteNameMax string
 	var err error
 	var result utils.ValCurs
-	var urls []string
-	urls = utils.GetDates()
+	urls := utils.GetDates()
 	if result, err = utils.Get(urls[0]); err != nil {
 		log.Printf("Failed to get XML: %v", err)
 	}
