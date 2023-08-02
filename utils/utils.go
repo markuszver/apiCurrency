@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"strconv"
@@ -6,14 +6,14 @@ import (
 	"time"
 )
 
-func emptyRes(curs ValCurs) bool {
+func EmptyRes(curs ValCurs) bool {
 	if curs.Date == "" && curs.Name == "" && len(curs.Valute) == 0 {
 		return true
 	}
 	return false
 }
 
-func parseFloat(ctringa string) (float64, error) {
+func ParseFloat(ctringa string) (float64, error) {
 	var f float64
 	ctringa = strings.Replace(ctringa, ",", ".", -1)
 	ctringa = strings.TrimSuffix(ctringa, "\n")
@@ -24,7 +24,7 @@ func parseFloat(ctringa string) (float64, error) {
 	return f, nil
 }
 
-func getDates() []string {
+func GetDates() []string {
 	var result []string
 	for i := 89; i >= 0; i-- {
 		currentTime := time.Now()

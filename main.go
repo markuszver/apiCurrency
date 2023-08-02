@@ -1,6 +1,7 @@
 package main
 
 import (
+	"apiCurrency/utils"
 	"fmt"
 	"log"
 )
@@ -10,22 +11,22 @@ func main() {
 	var min, max float64
 	var minDate, maxDate, valuteNameMin, valuteNameMax string
 	var err error
-	var result ValCurs
+	var result utils.ValCurs
 	var urls []string
-	urls = getDates()
-	if result, err = get(urls[0]); err != nil {
+	urls = utils.GetDates()
+	if result, err = utils.Get(urls[0]); err != nil {
 		log.Printf("Failed to get XML: %v", err)
 	}
-	min, err = parseFloat(result.Valute[0].Value)
+	min, err = utils.ParseFloat(result.Valute[0].Value)
 	if err != nil {
 		panic(err)
 	}
 	for i := 0; i < len(urls); i++ {
-		if result, err = get(urls[i]); err != nil {
+		if result, err = utils.Get(urls[i]); err != nil {
 			log.Printf("Failed to get XML: %v", err)
 		}
 		for j := 0; j < len(result.Valute); j++ {
-			currentElement, err := parseFloat(result.Valute[j].Value)
+			currentElement, err := utils.ParseFloat(result.Valute[j].Value)
 			if err != nil {
 				panic(err)
 			}

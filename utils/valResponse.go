@@ -1,12 +1,13 @@
-package main
+package utils
 
 import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
-	"golang.org/x/text/encoding/ianaindex"
 	"io"
 	"net/http"
+
+	"golang.org/x/text/encoding/ianaindex"
 )
 
 type ValCurs struct {
@@ -18,7 +19,7 @@ type ValCurs struct {
 	} `xml:"Valute"`
 }
 
-func encode(b []byte) (ValCurs, error) {
+func Encode(b []byte) (ValCurs, error) {
 	// Декодировка в UTF-8
 	var valcurs ValCurs
 	decoder := xml.NewDecoder(bytes.NewBuffer(b))
@@ -38,7 +39,7 @@ func encode(b []byte) (ValCurs, error) {
 	return valcurs, nil
 }
 
-func get(url string) (ValCurs, error) {
+func Get(url string) (ValCurs, error) {
 	req, err := http.NewRequest("GET", url, nil)
 	req.Header.Add("Accept", `text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8`)
 	req.Header.Add("User-Agent", `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11`)
@@ -53,11 +54,11 @@ func get(url string) (ValCurs, error) {
 		return ValCurs{}, fmt.Errorf("status error: %v", resp.StatusCode)
 	}
 	data, err := io.ReadAll(resp.Body)
-	result, err := encode(data)
+	result, err := Encode(data)
 	if err != nil {
 		return ValCurs{}, err
 	}
-	if emptyRes(result) {
+	if EmptyRes(result) {
 		return result, fmt.Errorf("no response")
 	}
 	return result, nil
