@@ -2,10 +2,12 @@ package utils
 
 import (
 	"bytes"
+	"context"
 	"encoding/xml"
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 
 	"golang.org/x/text/encoding/ianaindex"
 )
@@ -40,7 +42,9 @@ func Encode(b []byte) (ValCurs, error) {
 }
 
 func Get(url string) (ValCurs, error) {
-	req, err := http.NewRequest("GET", url, nil)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	req.Header.Add("Accept", `text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8`)
 	req.Header.Add("User-Agent", `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11`)
 	client := &http.Client{}
@@ -49,7 +53,6 @@ func Get(url string) (ValCurs, error) {
 		return ValCurs{}, fmt.Errorf("GET error: %v", err)
 	}
 	defer resp.Body.Close()
-
 	if resp.StatusCode != http.StatusOK {
 		return ValCurs{}, fmt.Errorf("status error: %v", resp.StatusCode)
 	}
@@ -59,7 +62,7 @@ func Get(url string) (ValCurs, error) {
 		return ValCurs{}, err
 	}
 	if EmptyRes(result) {
-		return result, fmt.Errorf("no response")
+		return result, fmt.Errorf("no response for this url %s", url)
 	}
 	return result, nil
 }

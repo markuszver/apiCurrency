@@ -7,11 +7,12 @@ import (
 )
 
 func main() {
-	var avgCurrency, counter float64
-	var min, max float64
-	var minDate, maxDate, valuteNameMin, valuteNameMax string
-	var err error
-	var result utils.ValCurs
+	var (
+		avgCurrency, counter, min, max                 float64
+		minDate, maxDate, valuteNameMin, valuteNameMax string
+		err                                            error
+		result                                         utils.ValCurs
+	)
 	urls := utils.GetDates()
 	if result, err = utils.Get(urls[0]); err != nil {
 		log.Printf("Failed to get XML: %v", err)
