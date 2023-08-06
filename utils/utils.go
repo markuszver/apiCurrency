@@ -24,13 +24,17 @@ func ParseFloat(ctringa string) (float64, error) {
 	return f, nil
 }
 
-func GetDates() []string {
+func GetDates(days int) []string {
 	var result []string
-	for i := 89; i >= 0; i-- {
+	for i := days - 1; i >= 0; i-- {
 		currentTime := time.Now()
 		currentTime = currentTime.AddDate(0, 0, -i)
 		url := "https://www.cbr.ru/scripts/XML_daily_eng.asp?date_req=" + currentTime.Format("02-01-2006")
 		result = append(result, url)
 	}
 	return result
+}
+
+func Server() {
+
 }
